@@ -1,0 +1,16 @@
+Arocd in Power shell
+
+kubectl create namespace argocd
+kubectl apply -n argocd -f 
+
+kubectl get pod -n argocd
+kubectl port-forward -n argocd svc/argocd-server 8080:443
+http://localhost:8080
+
+
+PS C:\Users\sriha\kube> kubectl patch svc argocd-server -n argocd --type='json' -p='[{"op": "replace", "path": "/spec/type", "value": "LoadBalancer"}]'
+service/argocd-server patched (no change)
+
+PS C:\Users\sriha\kube> $base64pwd = kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}"
+PS C:\Users\sriha\kube> [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($base64pwd))
+wno5cqt1RA2lBfaV
